@@ -119,8 +119,8 @@
     #hero { background: var(--green-dark); min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; overflow: hidden; }
     .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
     .hero-overlay { position: absolute; inset: 0; background: rgba(0,20,15,0.62); z-index: 1; }
-    #hero > .container { width: 100%; }
-    .hero-inner { display: block; padding: 80px 0; position: relative; z-index: 2; max-width: 640px; }
+    #hero > .container { width: 100%; max-width: none; margin: 0; padding-left: 48px; padding-right: 48px; }
+    .hero-inner { display: block; padding: 80px 0; position: relative; z-index: 2; max-width: 600px; }
     .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(55,202,55,0.15); border: 1px solid rgba(55,202,55,0.3); border-radius: 100px; padding: 6px 16px 6px 8px; margin-bottom: 28px; }
     .hero-badge-dot { width: 8px; height: 8px; background: var(--green-accent); border-radius: 50%; flex-shrink: 0; }
     .hero-badge span { font-family: var(--body); font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--green-accent); }
@@ -132,14 +132,19 @@
     .hero-stars-text { font-family: var(--body); font-size: 0.85rem; color: rgba(255,255,255,0.55); }
     .hero-stars-text strong { color: rgba(255,255,255,0.85); font-weight: 600; }
     /* Logos strip */
-    .logos-strip { padding: 52px 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); }
-    .logos-strip-label { font-family: var(--body); font-size: 0.72rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-bottom: 32px; }
-    .logos-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 40px 56px; }
-    .logos-row img { height: 36px; width: auto; max-width: 120px; object-fit: contain; filter: grayscale(1) opacity(0.55); transition: filter 0.35s var(--ease), transform 0.35s var(--ease); }
-    .logos-row img:hover { filter: grayscale(0) opacity(1); transform: scale(1.06); }
-    @media (max-width: 640px) {
-      .logos-row { gap: 28px 36px; }
-      .logos-row img { height: 28px; max-width: 96px; }
+    .logos-strip { padding: 60px 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .logos-strip-label { font-family: var(--body); font-size: 0.72rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-bottom: 36px; }
+    .logos-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .logo-card { width: 172px; height: 100px; border: 1.5px solid rgba(0,66,54,0.18); border-radius: 14px; display: flex; align-items: center; justify-content: center; padding: 16px 20px; background: #fff; transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); cursor: default; }
+    .logo-card:hover { border-color: var(--green-teal); box-shadow: 0 4px 20px rgba(0,66,54,0.1); }
+    .logo-card img { height: 52px; width: auto; max-width: 132px; object-fit: contain; filter: grayscale(1) opacity(0.6); transition: filter 0.35s var(--ease); }
+    .logo-card:hover img { filter: grayscale(0) opacity(1); }
+    @media (max-width: 768px) {
+      .logo-card { width: 140px; height: 84px; }
+      .logo-card img { height: 40px; max-width: 108px; }
+    }
+    @media (max-width: 480px) {
+      .logo-card { width: calc(50% - 8px); height: 80px; }
     }
 
     /* ===== BENTO GRID ===== */
@@ -362,15 +367,15 @@
   <div class="container">
     <p class="logos-strip-label">Vi samarbetar med</p>
     <div class="logos-row">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2be16d84983993673e94.png" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2c6a92d1452b1b1d4f99.svg" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2cea76699da52f920a25.png" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2d22844c0162d342f8a4.webp" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2d6679ce07493e8946e1.svg" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2dcaa8f9d330f0e2057b.png" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2e79d332c9458b284623.webp" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2ee047cb3b3eacbc17de.png" alt="Partner logotyp" loading="lazy">
-      <img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2f1147cb3bc8b2bc1ef0.png" alt="Partner logotyp" loading="lazy">
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2be16d84983993673e94.png" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2c6a92d1452b1b1d4f99.svg" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2cea76699da52f920a25.png" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2d22844c0162d342f8a4.webp" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2d6679ce07493e8946e1.svg" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/685f2dcaa8f9d330f0e2057b.png" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2e79d332c9458b284623.webp" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2ee047cb3b3eacbc17de.png" alt="Partner logotyp" loading="lazy"></div>
+      <div class="logo-card"><img src="https://storage.googleapis.com/msgsndr/1FYpgqYgXr6SzFnCzKew/media/68fd2f1147cb3bc8b2bc1ef0.png" alt="Partner logotyp" loading="lazy"></div>
     </div>
   </div>
 </div>
