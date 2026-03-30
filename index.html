@@ -158,8 +158,8 @@
     /* ===== BENTO GRID ===== */
     .bento-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; grid-template-rows: 260px 200px; gap: 16px; }
     .bento-card { border-radius: var(--radius-card); overflow: hidden; position: relative; }
-    .bento-img { grid-row: 1/3; background: linear-gradient(145deg, #0a5c4a 0%, #00917c 40%, #184d47 80%, #004236 100%); display: flex; align-items: flex-end; padding: 28px; }
-    .bento-img::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 30%, rgba(55,202,55,0.2) 0%, transparent 60%); }
+    .bento-img { grid-row: 1/3; background: url('img-bucket.jpeg') center top/cover no-repeat; display: flex; align-items: flex-end; padding: 28px; }
+    .bento-img::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%); }
     .bento-img-label { background: rgba(255,255,255,0.12); backdrop-filter: blur(10px); border-radius: 12px; padding: 12px 18px; position: relative; z-index: 1; }
     .bento-img-label span { font-family: var(--sans); font-weight: 700; font-size: 0.9rem; color: #fff; }
     .bento-text-card { background: var(--bg-light); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
@@ -199,8 +199,8 @@
 
     /* ===== VARFÖR OSS ===== */
     .varfor-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .varfor-img { border-radius: 24px; aspect-ratio: 4/5; background: linear-gradient(145deg, #0a5c4a 0%, #00917c 45%, #184d47 100%); display: flex; align-items: flex-end; padding: 28px; position: relative; overflow: hidden; }
-    .varfor-img::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 30%, rgba(55,202,55,0.2) 0%, transparent 55%); }
+    .varfor-img { border-radius: 24px; aspect-ratio: 4/5; background: url('img-glove-ok.jpeg') center/cover no-repeat; display: flex; align-items: flex-end; padding: 28px; position: relative; overflow: hidden; }
+    .varfor-img::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%); }
     .varfor-img-label { background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); border-radius: 14px; padding: 16px 20px; position: relative; z-index: 1; }
     .varfor-img-label .num { font-family: var(--sans); font-weight: 800; font-size: 2.2rem; color: #fff; line-height: 1; }
     .varfor-img-label .lbl { font-family: var(--body); font-size: 0.8rem; color: rgba(255,255,255,0.7); }
