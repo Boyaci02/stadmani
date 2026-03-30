@@ -145,6 +145,8 @@
     @keyframes marquee-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
     @media (max-width: 768px) {
+      .logos-strip .container { padding: 0; }
+      .logos-strip-label { padding: 0 20px; }
       .logos-rows-wrap { gap: 12px; }
       .logos-track { overflow: hidden; }
       .logos-inner { flex-wrap: nowrap; gap: 12px; }
