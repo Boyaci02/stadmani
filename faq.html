@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanliga Frågor – Städmani Stockholm</title>
+  <meta name="description" content="Svar på vanliga frågor om Städmanis tjänster – hemstädning, storstädning, flyttstädning och mer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--body); color: var(--text-dark); background: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; }
+    :root {
+      --green-dark: #004236; --green-mid: #184d47; --green-teal: #00917c; --green-accent: #37ca37;
+      --text-dark: #2c3345; --text-muted: #8c8c8c; --bg-light: #f5f5f5; --white: #ffffff; --black: #1d1d1d;
+      --sans: 'Plus Jakarta Sans', sans-serif; --body: 'Poppins', sans-serif;
+      --radius-card: 20px; --radius-btn: 100px;
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94); --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --max-w: 1280px;
+    }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 40px; }
+    .section { padding: 120px 0; }
+    .eyebrow { font-family: var(--body); font-size: 0.72rem; font-weight: 500; letter-spacing: 3.5px; text-transform: uppercase; color: var(--text-muted); display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .eyebrow::before { content: ''; display: block; width: 28px; height: 1.5px; background: currentColor; flex-shrink: 0; }
+    .eyebrow-light { color: rgba(255,255,255,0.5); }
+    .section-heading { font-family: var(--sans); font-weight: 800; font-size: clamp(2.2rem, 4vw, 3.6rem); line-height: 1.1; letter-spacing: -0.5px; color: var(--text-dark); }
+    .section-heading-white { color: #fff; }
+    .section-subtext { font-family: var(--body); font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 560px; }
+    .btn { display: inline-flex; align-items: center; gap: 12px; font-family: var(--body); font-size: 0.92rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease); white-space: nowrap; }
+    .btn:hover { transform: scale(1.03); }
+    .btn-primary { background: var(--green-accent); color: #fff; padding: 14px 28px 14px 32px; border-radius: var(--radius-btn); box-shadow: 0 4px 20px rgba(55,202,55,0.3); }
+    .btn-primary:hover { background: #2db82d; box-shadow: 0 8px 32px rgba(55,202,55,0.4); }
+    .btn-arrow { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.3s; }
+    .btn-primary:hover .btn-arrow { background: rgba(255,255,255,0.4); }
+    .btn-arrow svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; } .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NAV */
+    #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 1px 24px rgba(0,0,0,0.08); }
+    .nav-logo { font-family: var(--sans); font-weight: 800; font-size: 1.35rem; letter-spacing: 2px; color: var(--green-dark); }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-link { font-family: var(--body); font-size: 0.88rem; font-weight: 500; color: var(--text-dark); padding: 8px 14px; border-radius: 8px; transition: color 0.3s, background 0.3s; position: relative; }
+    .nav-link:hover { color: var(--green-dark); background: rgba(0,66,54,0.06); }
+    .nav-link.active { color: var(--green-accent) !important; font-weight: 600; }
+    .nav-link.active::after { content: ''; position: absolute; bottom: 2px; left: 14px; right: 14px; height: 2px; background: var(--green-accent); border-radius: 2px; }
+    .nav-cta { margin-left: 8px; font-size: 0.82rem !important; padding: 10px 20px 10px 24px !important; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--text-dark); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--green-dark); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 32px; opacity: 0; transition: opacity 0.3s; }
+    .mobile-menu.open { display: flex; opacity: 1; }
+    .mobile-menu a { font-family: var(--sans); font-weight: 700; font-size: 1.8rem; color: #fff; transition: color 0.2s; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--green-accent); }
+
+    /* HERO SUB – kortare */
+    .hero-sub { background: var(--green-dark); min-height: 50vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 70px; position: relative; overflow: hidden; }
+    .hero-sub-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, #184d47 0%, var(--green-dark) 70%); pointer-events: none; }
+    .hero-sub-content { position: relative; max-width: 720px; }
+    .hero-sub-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(55,202,55,0.15); border: 1px solid rgba(55,202,55,0.3); border-radius: 100px; padding: 6px 16px 6px 8px; margin-bottom: 24px; }
+    .hero-sub-badge-dot { width: 8px; height: 8px; background: var(--green-accent); border-radius: 50%; }
+    .hero-sub-badge span { font-family: var(--body); font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--green-accent); }
+    .hero-sub-title { font-family: var(--sans); font-weight: 800; font-size: clamp(2.8rem, 5vw, 4.4rem); line-height: 1.05; letter-spacing: -1px; color: #fff; margin-bottom: 20px; }
+    .hero-sub-desc { font-family: var(--body); font-size: 1.05rem; line-height: 1.75; color: rgba(255,255,255,0.65); max-width: 500px; margin-bottom: 32px; }
+
+    /* FAQ SEKTION */
+    .faq-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-bottom: 64px; }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-category { font-family: var(--body); font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--green-accent); padding: 32px 0 16px; border-top: 2px solid var(--green-accent); margin-top: 8px; }
+    .faq-category:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+    .faq-item { border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .faq-question { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; text-align: left; font-family: var(--sans); font-weight: 600; font-size: 1rem; color: var(--text-dark); transition: color 0.3s; }
+    .faq-question:hover { color: var(--green-dark); }
+    .faq-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.3s, transform 0.4s var(--ease); }
+    .faq-icon svg { width: 14px; height: 14px; stroke: var(--text-dark); stroke-width: 2; fill: none; transition: stroke 0.3s; }
+    .faq-item.open .faq-icon { background: var(--green-dark); transform: rotate(45deg); }
+    .faq-item.open .faq-icon svg { stroke: #fff; }
+    .faq-item.open .faq-question { color: var(--green-dark); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.45s var(--ease); }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer p { font-family: var(--body); font-size: 0.92rem; line-height: 1.75; color: var(--text-muted); padding-bottom: 22px; }
+
+    /* CTA */
+    .cta-section { background: var(--green-dark); position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, #184d47 0%, var(--green-dark) 70%); }
+    .cta-inner { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .cta-inner h2 { font-family: var(--sans); font-weight: 800; font-size: clamp(2.4rem, 5vw, 4rem); color: #fff; letter-spacing: -1px; line-height: 1.1; max-width: 600px; }
+    .cta-inner p { font-family: var(--body); font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 460px; }
+
+    /* KONTAKT */
+    #kontakt { background: var(--green-dark); border-top: 1px solid rgba(255,255,255,0.08); }
+    .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .kontakt-info { display: flex; flex-direction: column; gap: 28px; }
+    .kontakt-info h2 { font-family: var(--sans); font-weight: 800; font-size: clamp(2rem, 3.5vw, 3rem); color: #fff; letter-spacing: -0.5px; line-height: 1.15; }
+    .kontakt-info > p { font-family: var(--body); font-size: 0.95rem; line-height: 1.75; color: rgba(255,255,255,0.6); }
+    .kontakt-details { display: flex; flex-direction: column; gap: 12px; }
+    .kontakt-detail { display: flex; align-items: center; gap: 12px; font-family: var(--body); font-size: 0.92rem; color: rgba(255,255,255,0.8); }
+    .kontakt-detail-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .kontakt-detail-icon svg { width: 16px; height: 16px; stroke: var(--green-accent); fill: none; stroke-width: 1.8; }
+    .kontakt-checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .kontakt-checklist li { display: flex; align-items: center; gap: 10px; font-family: var(--body); font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+    .kontakt-checklist li::before { content: ''; width: 18px; height: 18px; background: rgba(55,202,55,0.2); border-radius: 50%; flex-shrink: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2337ca37' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); background-size: 10px; background-repeat: no-repeat; background-position: center; }
+    .kontakt-form { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-card); padding: 40px; display: flex; flex-direction: column; gap: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-family: var(--body); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); }
+    .form-group input, .form-group textarea { background: transparent; border: none; border-bottom: 1.5px solid rgba(255,255,255,0.2); padding: 12px 0; font-family: var(--body); font-size: 0.95rem; color: #fff; outline: none; transition: border-color 0.3s; width: 100%; resize: none; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--green-accent); }
+
+    /* FOOTER */
+    #footer { background: var(--black); padding: 80px 0 40px; }
+    .footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 60px; margin-bottom: 60px; }
+    .footer-logo { font-family: var(--sans); font-weight: 800; font-size: 1.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 16px; }
+    .footer-brand-text { font-family: var(--body); font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,0.45); max-width: 240px; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .footer-social { width: 36px; height: 36px; border-radius: 50%; background: var(--green-accent); display: flex; align-items: center; justify-content: center; transition: transform 0.3s, background 0.3s; }
+    .footer-social:hover { transform: translateY(-3px); background: #2db82d; }
+    .footer-social svg { width: 16px; height: 16px; fill: #fff; }
+    .footer-col h4 { font-family: var(--sans); font-weight: 700; font-size: 0.92rem; color: #fff; margin-bottom: 20px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-family: var(--body); font-size: 0.88rem; color: rgba(255,255,255,0.45); transition: color 0.3s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.9); }
+    .footer-contact-item { font-family: var(--body); font-size: 0.88rem; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin-bottom: 28px; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copyright { font-family: var(--body); font-size: 0.82rem; color: rgba(255,255,255,0.3); }
+
+    @media (max-width: 1100px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; } }
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; } .section { padding: 80px 0; }
+      .nav-links { display: none; } .nav-cta { display: none; } .nav-hamburger { display: flex; }
+      .faq-intro { grid-template-columns: 1fr; gap: 24px; }
+      .kontakt-inner { grid-template-columns: 1fr; gap: 40px; } .form-row { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 36px; } .footer-bottom { flex-direction: column; gap: 12px; }
+      .kontakt-form { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">STÄDMANI</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">Hem</a></li>
+    <li><a href="privatstadning.html" class="nav-link">Privatstädning</a></li>
+    <li><a href="foretagsstadning.html" class="nav-link">Företagsstädning</a></li>
+    <li><a href="om-oss.html" class="nav-link">Om Oss</a></li>
+    <li><a href="faq.html" class="nav-link">FAQ</a></li>
+  </ul>
+  <a href="#kontakt" class="btn btn-primary nav-cta">Kontakta Oss<span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Öppna meny"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Hem</a>
+  <a href="privatstadning.html">Privatstädning</a>
+  <a href="foretagsstadning.html">Företagsstädning</a>
+  <a href="om-oss.html">Om Oss</a>
+  <a href="faq.html">FAQ</a>
+  <a href="#kontakt" style="color:var(--green-accent);">Kontakta Oss</a>
+</div>
+
+<!-- HERO -->
+<section class="hero-sub">
+  <div class="hero-sub-bg"></div>
+  <div class="container">
+    <div class="hero-sub-content">
+      <div class="hero-sub-badge reveal"><span class="hero-sub-badge-dot"></span><span>Vanliga Frågor</span></div>
+      <h1 class="hero-sub-title reveal reveal-delay-1">Vanliga<br>Frågor</h1>
+      <p class="hero-sub-desc reveal reveal-delay-2">Här hittar du svar på de vanligaste frågorna om våra tjänster. Hittar du inte svaret du söker? Kontakta oss direkt.</p>
+      <div class="reveal reveal-delay-3">
+        <a href="#kontakt" class="btn btn-primary">Kontakta Oss<span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ ACCORDION – ALLA FRÅGOR -->
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="faq-intro">
+      <div class="reveal">
+        <div class="eyebrow">FAQ</div>
+        <h2 class="section-heading">Vanliga Frågor Om<br>Våra Tjänster</h2>
+      </div>
+      <p class="section-subtext reveal reveal-delay-1" style="padding-top:20px;">Vi har samlat svar på de frågor vi får mest – allt från bokning och betalning till städmoment och garantier.</p>
+    </div>
+
+    <div class="faq-list">
+      <!-- Allmänt -->
+      <div class="faq-category reveal">Allmänt</div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">Hur bokar jag hemstädning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Det är enkelt att boka städhjälp med Städmani. Allt du behöver göra är att fylla i kontaktformuläret. Ange bostadens storlek, om du bor innanför eller utanför tullarna samt när/hur ofta du önskar hemstädning. Vi återkommer därefter med en offert.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-question">Hur betalar jag för städningen?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Du kommer löpande att få fakturor från Städmani med alla uppgifter om betalning, dvs bankgironummer och sista betalningsdag etc.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-2">
+        <button class="faq-question">Hur långt innan måste jag avboka/ändra ett städtillfälle?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Avbokning från kundens sida av städningen kan göras fram till 14 dagar innan städtillfället. Avbokningar med kortare varsel än 14 dagar innan städtillfället debiteras.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-3">
+        <button class="faq-question">Om jag vill avboka eller ändra min städning, hur gör jag då?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Skicka ett e-mail till info@stadmani.com.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-4">
+        <button class="faq-question">Hur gör vi med nyckeln?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Det bestämmer du som kund. Du kan välja att låta oss kvittera ut en nyckel eller att du låser upp när vi kommer och låser när vi går.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Behöver jag förbereda något inför min städning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>För att få det bästa städresultatet rekommenderar vi att det är undanplockat när vi kommer så att vi kan fokusera på att göra rent under städningen.</p></div>
+      </div>
+
+      <!-- Storstädning -->
+      <div class="faq-category reveal">Storstädning</div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">Tar ni med städmedel vid storstädning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Vi tar med alla städmedel som behövs till en kostnad som läggs på din faktura. Saknar du dammsugare, mopp och hink kan vi även ta med oss detta mot en kostnad!</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-question">Kan ni ta bort fläckar och märken på väggarna?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Vi dammtorkar väggar enligt de generella moment som ingår i storstädningen. Det betyder att vi inte har möjlighet att ta bort fläckar eller märken som inte går bort med en dammtrasa.</p></div>
+      </div>
+
+      <!-- Personal & Trygghet -->
+      <div class="faq-category reveal">Personal & Trygghet</div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">Är era städningsexperter anställda?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Ja, alla våra medarbetare är anställda hos Städmani. Vi arbetar inte med inhyrd personal.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-question">Är er personal försäkrad?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Ja, vi har försäkring för våra medarbetare under tiden de arbetar.</p></div>
+      </div>
+
+      <!-- Flyttstädning -->
+      <div class="faq-category reveal">Flyttstädning</div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">Behöver jag förbereda något inför min flyttstädning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Säkerställ att din frys är avstängd och avfrostad (och glöm inte tömma kylen!). Dra ut vitvaror som kyl, frys, spis, tvättmaskin och torktumlare från väggen om du vill att vi rengör bakom. Rensa vattenlås under handfat och diskho. Se till att bostaden är tömd på möbler och lösa föremål. Tänk på att biytor som t.ex. förråd, garage och balkonger inte ingår i vår flyttstädning, men du kan såklart boka till det!</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-question">Vad innebär flyttstädning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Det är idag obligatoriskt att städa sin bostad grundligt innan försäljning, annars har köparen rätt att klaga. Många väljer att anlita Städmani för att få hjälp med sin städning inför flytt.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-2">
+        <button class="faq-question">Vad ingår inte i flyttstädning?<span class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-answer"><p>Exempelvis ingår inte rengöring av möbler, eller flytthjälp av saker/lådor.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section section">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="reveal">Hittade Du Inte Svaret?</h2>
+      <p class="reveal reveal-delay-1">Kontakta oss direkt så hjälper vi dig med alla dina frågor.</p>
+      <div class="reveal reveal-delay-2">
+        <a href="#kontakt" class="btn btn-primary" style="font-size:1rem;padding:16px 36px 16px 40px;">
+          Kontakta Oss
+          <span class="btn-arrow" style="width:36px;height:36px;"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt" class="section">
+  <div class="container">
+    <div class="kontakt-inner">
+      <div class="kontakt-info">
+        <div class="reveal"><div class="eyebrow eyebrow-light">Kontakt</div><h2>Redo Att<br>Höra Av Dig?</h2></div>
+        <p class="reveal reveal-delay-1">Vi ser fram emot att höra ifrån dig! Kontakta oss via e-post eller fyll i kontaktformuläret så återkommer vi till dig så snart som möjligt.</p>
+        <div class="kontakt-details reveal reveal-delay-2">
+          <div class="kontakt-detail"><div class="kontakt-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.54 3.42 2 2 0 0 1 3.5 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.85-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg></div>070 450 31 88</div>
+          <div class="kontakt-detail"><div class="kontakt-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>info@stadmani.com</div>
+        </div>
+        <ul class="kontakt-checklist reveal reveal-delay-3"><li>Miljövänliga produkter</li><li>Kollektivavtal & försäkring</li><li>100% nöjd-kund-garanti</li></ul>
+        <div class="reveal reveal-delay-4"><a href="mailto:info@stadmani.com" class="btn btn-primary">Skicka E-post<span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a></div>
+      </div>
+      <form class="kontakt-form reveal reveal-delay-2" id="contactForm" novalidate>
+        <div class="form-row"><div class="form-group"><label>Namn *</label><input type="text" placeholder="Ditt namn" required></div><div class="form-group"><label>Telefon *</label><input type="tel" placeholder="070 000 00 00" required></div></div>
+        <div class="form-group"><label>E-post *</label><input type="email" placeholder="din@email.com" required></div>
+        <div class="form-group"><label>Adress *</label><input type="text" placeholder="Din adress" required></div>
+        <div class="form-group"><label>Meddelande</label><textarea rows="4" placeholder="Berätta om dina behov..."></textarea></div>
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;justify-content:center;font-size:0.95rem;padding:16px 32px;">Skicka In<span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-logo">STÄDMANI</div><p class="footer-brand-text">Din pålitliga städfirma i Stockholm. Miljövänligt, noggrant och pålitligt.</p><div class="footer-socials"><a href="#" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a><a href="#" class="footer-social" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a></div></div>
+      <div class="footer-col"><h4>Tjänster</h4><ul class="footer-links"><li><a href="privatstadning.html">Privatstädning</a></li><li><a href="foretagsstadning.html">Företagsstädning</a></li><li><a href="privatstadning.html">Flyttstädning</a></li></ul></div>
+      <div class="footer-col"><h4>Snabblänkar</h4><ul class="footer-links"><li><a href="om-oss.html">Om oss</a></li><li><a href="faq.html">Vanliga frågor</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
+      <div class="footer-col"><h4>Kontakt</h4><div class="footer-contact-item">070 450 31 88</div><div class="footer-contact-item">info@stadmani.com</div><div class="footer-contact-item">Stockholm, Sverige</div></div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom"><span class="footer-copyright">© Städmani 2025. Alla rättigheter förbehållna.</span><span class="footer-copyright">Byggd med omsorg i Stockholm</span></div>
+  </div>
+</footer>
+
+<script>
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-link').forEach(l => { if (l.getAttribute('href') === currentPage) l.classList.add('active'); });
+  document.querySelectorAll('.mobile-menu a').forEach(l => { if (l.getAttribute('href') === currentPage) l.classList.add('active'); });
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function openMenu() { hamburger.classList.add('open'); mobileMenu.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); document.body.style.overflow=''; }
+  hamburger.addEventListener('click', () => hamburger.classList.contains('open') ? closeMenu() : openMenu());
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  form.addEventListener('submit', e => { e.preventDefault(); const orig = submitBtn.innerHTML; submitBtn.innerHTML = 'Skickat! ✓'; submitBtn.disabled = true; submitBtn.style.background = '#2db82d'; setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; form.reset(); }, 3500); });
+  document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); } }); });
+</script>
+</body>
+</html>
