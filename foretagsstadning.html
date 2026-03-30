@@ -60,11 +60,10 @@
     .mobile-menu a:hover, .mobile-menu a.active { color: var(--green-accent); }
 
     /* HERO SUB */
-    .hero-sub { background: var(--green-dark); min-height: 60vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 80px; position: relative; overflow: hidden; }
-    .hero-sub-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, #184d47 0%, var(--green-dark) 65%); pointer-events: none; }
-    .hero-sub-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; }
-    .hero-sub-img { border-radius: 24px; overflow: hidden; aspect-ratio: 16/10; background: url('img-squeegee.jpeg') center/cover no-repeat; display: flex; align-items: center; justify-content: center; position: relative; }
-    .hero-sub-img::before { content: ''; position: absolute; inset: 0; background: rgba(0,20,15,0.35); }
+    .hero-sub { background: url('img-squeegee.jpeg') center/cover no-repeat; min-height: 78vh; display: flex; align-items: center; padding-top: 140px; padding-bottom: 100px; position: relative; overflow: hidden; }
+    .hero-sub-bg { position: absolute; inset: 0; background: rgba(0,20,15,0.62); pointer-events: none; }
+    .hero-sub-inner { display: block; max-width: 640px; position: relative; }
+    .hero-sub-img { display: none; }
     .hero-sub-img svg { width: 48px; height: 48px; stroke: rgba(255,255,255,0.35); fill: none; stroke-width: 1.5; stroke-linecap: round; position: relative; z-index: 1; }
     .hero-sub-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(55,202,55,0.15); border: 1px solid rgba(55,202,55,0.3); border-radius: 100px; padding: 6px 16px 6px 8px; margin-bottom: 24px; }
     .hero-sub-badge-dot { width: 8px; height: 8px; background: var(--green-accent); border-radius: 50%; }
