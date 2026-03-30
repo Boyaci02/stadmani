@@ -246,6 +246,7 @@
     .kontakt-detail { display: flex; align-items: center; gap: 12px; font-family: var(--body); font-size: 0.92rem; color: rgba(255,255,255,0.8); }
     .kontakt-detail-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .kontakt-detail-icon svg { width: 16px; height: 16px; stroke: var(--green-accent); fill: none; stroke-width: 1.8; }
+    .kontakt-detail a { color: inherit; text-decoration: none; }
     .kontakt-checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .kontakt-checklist li { display: flex; align-items: center; gap: 10px; font-family: var(--body); font-size: 0.9rem; color: rgba(255,255,255,0.7); }
     .kontakt-checklist li::before { content: ''; width: 18px; height: 18px; background: rgba(55,202,55,0.2); border-radius: 50%; flex-shrink: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2337ca37' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); background-size: 10px; background-repeat: no-repeat; background-position: center; }
@@ -607,7 +608,7 @@
         <div class="kontakt-details reveal reveal-delay-2">
           <div class="kontakt-detail">
             <div class="kontakt-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.54 3.42 2 2 0 0 1 3.5 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.85-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg></div>
-            070 450 31 88
+            <a href="tel:0704503188">070 450 31 88</a>
           </div>
           <div class="kontakt-detail">
             <div class="kontakt-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
@@ -626,7 +627,12 @@
           </a>
         </div>
       </div>
-      <form class="kontakt-form reveal reveal-delay-2" id="contactForm" novalidate>
+      <form class="kontakt-form reveal reveal-delay-2" id="contactForm" method="POST" action="https://api.web3forms.com/submit">
+        <!-- Web3Forms – hämta din nyckel gratis på web3forms.com med info@stadmani.com -->
+        <input type="hidden" name="access_key" value="DIN_NYCKEL_HÄR">
+        <input type="hidden" name="subject" value="Ny förfrågan – Städmani">
+        <input type="hidden" name="from_name" value="Städmani Hemsida">
+        <input type="hidden" name="redirect" value="false">
         <div class="form-row">
           <div class="form-group"><label for="name">Namn *</label><input type="text" id="name" name="name" placeholder="Ditt namn" required></div>
           <div class="form-group"><label for="phone">Telefon *</label><input type="tel" id="phone" name="phone" placeholder="070 000 00 00" required></div>
@@ -725,16 +731,32 @@
     });
   });
 
-  // Form
+  // Form – Web3Forms
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const orig = submitBtn.innerHTML;
-    submitBtn.innerHTML = 'Skickat! ✓';
+    submitBtn.innerHTML = 'Skickar...';
     submitBtn.disabled = true;
-    submitBtn.style.background = '#2db82d';
-    setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; form.reset(); }, 3500);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form)
+      });
+      const json = await res.json();
+      if (json.success) {
+        submitBtn.innerHTML = 'Skickat! ✓';
+        submitBtn.style.background = '#2db82d';
+        form.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      submitBtn.innerHTML = 'Fel – försök igen';
+      submitBtn.style.background = '#c0392b';
+    }
+    setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; }, 4000);
   });
 
   // Smooth scroll
