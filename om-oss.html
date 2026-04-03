@@ -408,7 +408,7 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
-  form.addEventListener('submit', e => { e.preventDefault(); const orig = submitBtn.innerHTML; submitBtn.innerHTML = 'Skickat! ✓'; submitBtn.disabled = true; submitBtn.style.background = '#2db82d'; setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; form.reset(); }, 3500); });
+  form.addEventListener('submit', e => { e.preventDefault(); window.location.href = 'tack.html'; });
   document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); } }); });
 </script>
 </body>

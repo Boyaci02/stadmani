@@ -748,17 +748,15 @@
       });
       const json = await res.json();
       if (json.success) {
-        submitBtn.innerHTML = 'Skickat! ✓';
-        submitBtn.style.background = '#2db82d';
-        form.reset();
+        window.location.href = 'tack.html';
       } else {
         throw new Error();
       }
     } catch {
       submitBtn.innerHTML = 'Fel – försök igen';
       submitBtn.style.background = '#c0392b';
+      setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; }, 4000);
     }
-    setTimeout(() => { submitBtn.innerHTML = orig; submitBtn.disabled = false; submitBtn.style.background = ''; }, 4000);
   });
 
   // Smooth scroll
