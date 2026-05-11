@@ -315,7 +315,20 @@
       .section-heading { font-size: 2rem; }
       .kontakt-form { padding: 24px; }
     }
+
+    /* Cloudflare Turnstile container */
+    .cf-turnstile { min-height: 65px; }
+    .form-group--honeypot {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -635,6 +648,19 @@
         <input type="hidden" name="subject" value="Ny förfrågan – Städmani">
         <input type="hidden" name="from_name" value="Städmani Hemsida">
         <input type="hidden" name="redirect" value="false">
+
+        <!-- Honeypot: osynligt för riktiga användare, botar fyller i det och stoppas av Web3Forms -->
+        <div class="form-group--honeypot" aria-hidden="true">
+          <label for="botcheck">Lämna detta fält tomt (anti-spam)</label>
+          <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- Browser-fingerprint: hashas av JS nedan, skickas som fält till Web3Forms -->
+        <input type="hidden" name="fingerprint"         id="fpHash"    value="">
+        <input type="hidden" name="fingerprint_details" id="fpDetails" value="">
+        <input type="hidden" name="submitted_at"        id="fpTime"    value="">
+        <input type="hidden" name="page_url"            id="fpUrl"     value="">
+
         <div class="form-row">
           <div class="form-group"><label for="name">Namn *</label><input type="text" id="name" name="name" placeholder="Ditt namn" required></div>
           <div class="form-group"><label for="phone">Telefon *</label><input type="tel" id="phone" name="phone" placeholder="070 000 00 00" required></div>
@@ -642,6 +668,23 @@
         <div class="form-group"><label for="email">E-post *</label><input type="email" id="email" name="email" placeholder="din@email.com" required></div>
         <div class="form-group"><label for="address">Adress *</label><input type="text" id="address" name="address" placeholder="Din adress" required></div>
         <div class="form-group"><label for="message">Meddelande</label><textarea id="message" name="message" rows="4" placeholder="Berätta om dina behov..."></textarea></div>
+
+        <!-- Cloudflare Turnstile widget (osynlig i ~80% av fall, annars klick) -->
+        <!-- STEG FÖR ATT AKTIVERA RIKTIGT SKYDD:
+             1. Skapa konto på https://dash.cloudflare.com/?to=/:account/turnstile
+             2. Lägg till en site (Domain: stadmani.com + stadmani.vercel.app)
+             3. Välj Widget Mode: Managed (rekommenderas)
+             4. Kopiera Site Key, byt ut placeholdern nedan
+             5. Logga in på web3forms.com/dashboard, gå till din form,
+                Spam Protection → Cloudflare Turnstile → klistra in Secret Key
+             Tills detta gjorts kör vi med test-nyckel som alltid släpper igenom
+             (= ingen riktig spam-skydd från Turnstile, men honeypot+fingerprint funkar). -->
+        <div class="cf-turnstile"
+             data-sitekey="1x00000000000000000000AA"
+             data-theme="dark"
+             data-size="flexible"
+             data-callback="onTurnstileSuccess"></div>
+
         <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;justify-content:center;font-size:0.95rem;padding:16px 32px;">
           Skicka In
           <span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
@@ -733,11 +776,149 @@
     });
   });
 
-  // Form – Web3Forms
+  // ==========================================================
+  // BROWSER FINGERPRINTING — matchar samma person även om de byter IP/VPN
+  // ==========================================================
+  function isFontInstalled(font) {
+    const baseFonts = ['monospace', 'sans-serif', 'serif'];
+    const testStr = 'mmmmmmmmmmlli';
+    const span = document.createElement('span');
+    span.style.cssText = 'font-size:72px; position:absolute; left:-9999px; visibility:hidden;';
+    span.textContent = testStr;
+    document.body.appendChild(span);
+    const defaults = {};
+    baseFonts.forEach(f => { span.style.fontFamily = f; defaults[f] = span.offsetWidth; });
+    const detected = baseFonts.some(f => {
+      span.style.fontFamily = `'${font}', ${f}`;
+      return span.offsetWidth !== defaults[f];
+    });
+    document.body.removeChild(span);
+    return detected;
+  }
+
+  async function generateFingerprint() {
+    const signals = {};
+
+    // Skärm + dpr
+    signals.screen = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+    signals.dpr = window.devicePixelRatio || 1;
+    signals.viewport = `${innerWidth}x${innerHeight}`;
+
+    // Tidszon
+    try { signals.tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { signals.tz = 'na'; }
+    signals.tzOffset = new Date().getTimezoneOffset();
+
+    // Språk
+    signals.lang = navigator.language || '';
+    signals.langs = (navigator.languages || []).join(',');
+
+    // Hårdvara
+    signals.cpu = navigator.hardwareConcurrency || 0;
+    signals.mem = navigator.deviceMemory || 0;
+    signals.platform = navigator.platform || '';
+    signals.touch = navigator.maxTouchPoints || 0;
+    signals.cookieEnabled = navigator.cookieEnabled;
+
+    // User-agent (Web3Forms loggar redan denna men vi tar med för komplett fp)
+    signals.ua = (navigator.userAgent || '').slice(0, 200);
+
+    // Canvas fingerprint — högst unika signaler (GPU/font-rendering varierar per device)
+    try {
+      const cvs = document.createElement('canvas');
+      cvs.width = 240; cvs.height = 60;
+      const ctx = cvs.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = '14px "Arial"';
+      ctx.fillStyle = '#f60'; ctx.fillRect(0, 0, 240, 60);
+      ctx.fillStyle = '#069'; ctx.fillText('Städmani ⚡ Stockholm', 2, 2);
+      ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+      ctx.fillText('Städmani ⚡ Stockholm', 4, 4);
+      // Lägg in ett varierande mönster
+      ctx.beginPath();
+      ctx.arc(120, 30, 20, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255, 0, 100, 0.5)';
+      ctx.fill();
+      signals.canvas = cvs.toDataURL().slice(-64);
+    } catch { signals.canvas = 'err'; }
+
+    // WebGL renderer + vendor (visar GPU — t.ex. "Apple M2", "NVIDIA RTX 3070")
+    try {
+      const gl = document.createElement('canvas').getContext('webgl') ||
+                 document.createElement('canvas').getContext('experimental-webgl');
+      const info = gl && gl.getExtension('WEBGL_debug_renderer_info');
+      if (info) {
+        signals.gpuVendor   = String(gl.getParameter(info.UNMASKED_VENDOR_WEBGL)   || '').slice(0, 100);
+        signals.gpuRenderer = String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL) || '').slice(0, 100);
+      }
+    } catch { signals.gpuRenderer = 'err'; }
+
+    // Fonts — kollar vanliga svenska / system-fonter
+    try {
+      const fontList = [
+        'Arial', 'Times New Roman', 'Courier New', 'Helvetica', 'Verdana',
+        'Tahoma', 'Georgia', 'Comic Sans MS', 'Calibri', 'Cambria',
+        'Lucida Console', 'Trebuchet MS', 'Segoe UI', 'Roboto', 'Open Sans',
+        'SF Pro', 'San Francisco', 'Menlo', 'Monaco', 'Consolas'
+      ];
+      signals.fonts = fontList.filter(isFontInstalled).join(',');
+    } catch { signals.fonts = 'err'; }
+
+    // Plugins-list (oftast tom i moderna browsers — men en signal)
+    try { signals.plugins = Array.from(navigator.plugins || []).map(p => p.name).join('|').slice(0, 200); } catch { signals.plugins = ''; }
+
+    // Storage availability
+    try { localStorage.setItem('_fp', '1'); localStorage.removeItem('_fp'); signals.localStorage = 1; } catch { signals.localStorage = 0; }
+    try { sessionStorage.setItem('_fp', '1'); sessionStorage.removeItem('_fp'); signals.sessionStorage = 1; } catch { signals.sessionStorage = 0; }
+
+    // Hasha hela paketet (SHA-256) — den korta repeterbara signaturen
+    const json = JSON.stringify(signals);
+    let hex = '';
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(json));
+      hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch { hex = 'sha256_unavailable_' + Date.now(); }
+
+    document.getElementById('fpHash').value    = hex;
+    document.getElementById('fpDetails').value = json;
+    document.getElementById('fpTime').value    = new Date().toISOString();
+    document.getElementById('fpUrl').value     = location.href;
+  }
+
+  // Kör fingerprintning så snart sidan är laddad
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', generateFingerprint);
+  } else {
+    generateFingerprint();
+  }
+
+  // Turnstile callback — Web3Forms hämtar cf-turnstile-response automatiskt
+  window.onTurnstileSuccess = function () { /* widget injicerar token i formuläret */ };
+
+  // ==========================================================
+  // Form – Web3Forms submit
+  // ==========================================================
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
   form.addEventListener('submit', async e => {
     e.preventDefault();
+
+    // Honeypot — om botcheck är ifyllt, låtsas success men skicka inget
+    if (form.querySelector('[name="botcheck"]').checked) {
+      window.location.href = 'tack.html';
+      return;
+    }
+
+    // Verifiera att Turnstile är löst (om widget renderats)
+    const turnstileResp = form.querySelector('[name="cf-turnstile-response"]');
+    const turnstileEnabled = !!document.querySelector('.cf-turnstile iframe');
+    if (turnstileEnabled && (!turnstileResp || !turnstileResp.value)) {
+      submitBtn.innerHTML = 'Lös bot-kontrollen ovan';
+      submitBtn.style.background = '#c0392b';
+      setTimeout(() => { submitBtn.innerHTML = 'Skicka In <span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>'; submitBtn.style.background = ''; }, 3000);
+      return;
+    }
+
     const orig = submitBtn.innerHTML;
     submitBtn.innerHTML = 'Skickar...';
     submitBtn.disabled = true;
@@ -750,7 +931,7 @@
       if (json.success) {
         window.location.href = 'tack.html';
       } else {
-        throw new Error();
+        throw new Error(json.message || 'Submit failed');
       }
     } catch {
       submitBtn.innerHTML = 'Fel – försök igen';
