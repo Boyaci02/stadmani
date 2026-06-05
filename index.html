@@ -642,12 +642,8 @@
           </a>
         </div>
       </div>
-      <form class="kontakt-form reveal reveal-delay-2" id="contactForm" method="POST" action="https://api.web3forms.com/submit">
-        <!-- Web3Forms – hämta din nyckel gratis på web3forms.com med info@stadmani.com -->
-        <input type="hidden" name="access_key" value="e26bed4f-df7c-4036-89fd-13107635d419">
+      <form class="kontakt-form reveal reveal-delay-2" id="contactForm" method="POST" action="/api/contact">
         <input type="hidden" name="subject" value="Ny förfrågan – Städmani">
-        <input type="hidden" name="from_name" value="Städmani Hemsida">
-        <input type="hidden" name="redirect" value="false">
 
         <!-- Honeypot: osynligt för riktiga användare, botar fyller i det och stoppas av Web3Forms -->
         <div class="form-group--honeypot" aria-hidden="true">
@@ -668,22 +664,6 @@
         <div class="form-group"><label for="email">E-post *</label><input type="email" id="email" name="email" placeholder="din@email.com" required></div>
         <div class="form-group"><label for="address">Adress *</label><input type="text" id="address" name="address" placeholder="Din adress" required></div>
         <div class="form-group"><label for="message">Meddelande</label><textarea id="message" name="message" rows="4" placeholder="Berätta om dina behov..."></textarea></div>
-
-        <!-- Cloudflare Turnstile widget (osynlig i ~80% av fall, annars klick) -->
-        <!-- STEG FÖR ATT AKTIVERA RIKTIGT SKYDD:
-             1. Skapa konto på https://dash.cloudflare.com/?to=/:account/turnstile
-             2. Lägg till en site (Domain: stadmani.com + stadmani.vercel.app)
-             3. Välj Widget Mode: Managed (rekommenderas)
-             4. Kopiera Site Key, byt ut placeholdern nedan
-             5. Logga in på web3forms.com/dashboard, gå till din form,
-                Spam Protection → Cloudflare Turnstile → klistra in Secret Key
-             Tills detta gjorts kör vi med test-nyckel som alltid släpper igenom
-             (= ingen riktig spam-skydd från Turnstile, men honeypot+fingerprint funkar). -->
-        <div class="cf-turnstile"
-             data-sitekey="1x00000000000000000000AA"
-             data-theme="dark"
-             data-size="flexible"
-             data-callback="onTurnstileSuccess"></div>
 
         <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;justify-content:center;font-size:0.95rem;padding:16px 32px;">
           Skicka In
@@ -909,26 +889,18 @@
       return;
     }
 
-    // Verifiera att Turnstile är löst (om widget renderats)
-    const turnstileResp = form.querySelector('[name="cf-turnstile-response"]');
-    const turnstileEnabled = !!document.querySelector('.cf-turnstile iframe');
-    if (turnstileEnabled && (!turnstileResp || !turnstileResp.value)) {
-      submitBtn.innerHTML = 'Lös bot-kontrollen ovan';
-      submitBtn.style.background = '#c0392b';
-      setTimeout(() => { submitBtn.innerHTML = 'Skicka In <span class="btn-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>'; submitBtn.style.background = ''; }, 3000);
-      return;
-    }
-
     const orig = submitBtn.innerHTML;
     submitBtn.innerHTML = 'Skickar...';
     submitBtn.disabled = true;
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const data = Object.fromEntries(new FormData(form).entries());
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        body: new FormData(form)
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
       });
-      const json = await res.json();
-      if (json.success) {
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.success) {
         window.location.href = 'tack.html';
       } else {
         throw new Error(json.message || 'Submit failed');
