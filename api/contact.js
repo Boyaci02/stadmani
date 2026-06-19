@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Städmani webb <noreply@synsnumedia.com>',
+        from: 'Städmani <forms@stadmani.com>',
         to: ['info@stadmani.com'],
         reply_to: email || undefined,
         subject: `Ny förfrågan från webben — ${name}`,
